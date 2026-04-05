@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Su Encarguito | Catálogo Digital con Imágenes por Producto</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f6fa;
+      color: #1e293b;
+      padding: 24px 20px 60px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Store Header */
+    .store-header {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border-radius: 32px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      color: white;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.2);
+    }
+
+    .store-info h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .store-info h1 i {
+      background: #facc15;
+      color: #0f172a;
+      padding: 8px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+    }
+
+    .store-info p {
+      margin-top: 8px;
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-whatsapp, .btn-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(4px);
+      padding: 12px 24px;
+      border-radius: 60px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .btn-whatsapp:hover {
+      background: #25D366;
+      border-color: #25D366;
+      transform: scale(1.02);
+    }
+
+    .btn-location:hover {
+      background: #ea4335;
+      border-color: #ea4335;
+      transform: scale(1.02);
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #475569;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .tab-btn i {
+      margin-right: 8px;
+    }
+
+    .tab-btn.active {
+      background: #0f172a;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #edf2f7;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+    }
+
+    .card-img {
+      background: #f8fafc;
+      height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      padding: 16px;
+      border-bottom: 1px solid #eef2ff;
+    }
+
+    .card-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .card-img img {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 18px 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .product-specs {
+      font-size: 0.78rem;
+      color: #475569;
+      margin-bottom: 14px;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 8px 0 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .price {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .price small {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    .code {
+      font-size: 0.7rem;
+      color: #6c757d;
+      font-family: monospace;
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .category-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: #eef2ff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      color: #1e40af;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .buy-action {
+      margin-top: 14px;
+      background: #f8fafc;
+      border-radius: 40px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s;
+    }
+
+    .buy-action a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 0;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0f172a;
+      width: 100%;
+      border-radius: 40px;
+      transition: 0.2s;
+    }
+
+    .buy-action a i {
+      font-size: 1rem;
+      color: #25D366;
+    }
+
+    .buy-action a:hover {
+      background: #25D366;
+      color: white;
+      border-color: #25D366;
+    }
+
+    .buy-action a:hover i {
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 20px;
+      color: #64748b;
+      font-size: 0.8rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px 12px 40px;
+      }
+      .store-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+      .contact-buttons {
+        justify-content: center;
+      }
+      .product-title {
+        font-size: 1rem;
+      }
+      .price {
+        font-size: 1.3rem;
+      }
+      .card-img {
+        height: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="store-header">
+    <div class="store-info">
+      <h1><i class="fas fa-box"></i> Su Encarguito</h1>
+      <p><i class="fas fa-map-marker-alt"></i> 📍 Quito, Ecuador · Centro Comercial San Luis Local 27</p>
+      <p><i class="fas fa-clock"></i> Lun-Vie 9:00 a 19:00 · Sáb 10:00 a 17:00</p>
+    </div>
+    <div class="contact-buttons">
+      <a href="https://wa.me/593987654321?text=Hola%2C%20vi%20el%20cat%C3%A1logo%20digital%20de%20Su%20Encarguito%20y%20me%20interesa%20un%20producto" target="_blank" class="btn-whatsapp">
+        <i class="fab fa-whatsapp fa-lg"></i> WhatsApp · +593 98 765 4321
+      </a>
+      <a href="https://maps.google.com/?q=Quito+Centro+Comercial+San+Luis+Local+27" target="_blank" class="btn-location">
+        <i class="fas fa-location-dot"></i> Cómo llegar
+      </a>
+    </div>
+  </div>
+
+  <div class="category-tabs" id="tabsContainer">
+    <button class="tab-btn active" data-cat="all"><i class="fas fa-border-all"></i> Todos</button>
+    <button class="tab-btn" data-cat="TELEFONOS CELULARES Y TABLETS"><i class="fas fa-mobile-alt"></i> Celulares & Tablets</button>
+    <button class="tab-btn" data-cat="TELEVISORES"><i class="fas fa-tv"></i> Televisores</button>
+    <button class="tab-btn" data-cat="AUDIO Y SONIDO"><i class="fas fa-headphones"></i> Audio & Sonido</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid"></div>
+  <footer>
+    <i class="fas fa-tag"></i> Precios competitivos · Garantía original · Consulta disponibilidad por WhatsApp<br>
+    💳 Aceptamos transferencias, efectivo y tarjetas. <strong>Su Encarguito</strong> — Confianza y tecnología.
+  </footer>
+</div>
+
+<script>
+  // ==================== IMÁGENES POR PRODUCTO (según código) ====================
+  // Puedes editar esta sección: asigna una URL de imagen a cada código de producto
+  // Si no asignas imagen a un código, usará la imagen por categoría como fallback
+  
+  const productImages = {
+    // === CELULARES HONOR ===
+    "8021": "https://mobilestore.ec/wp-content/uploads/2026/01/Honor-Magic-8-Lite-5G-Verde-Bosque-Mobile-Store-Ecuador.jpg",   // HONOR Magic8 Lite
+    "8010": "https://system.pepezone.ec//files/up/imgProducts/10235_HONOR-X5B-PLUS-4GB-4GB-256GB-AZUL-OCEANO_1192024104827AM.JPG",   // HONOR X5B Azul
+    "8011": "https://mundotek.com.ec/wp-content/uploads/2025/01/x5b-plus.png",   // HONOR X5B Lila
+    "8009": "https://eluniverso.vtexassets.com/arquivos/ids/178803/HONX5BBK.jpg?v=639052112531730000",   // HONOR X5B Negro
+    "8008": "https://system.pepezone.ec//files/up/imgProducts/8892_HONOR-X8B-AZUL-16GB-512GB_128202492749AM.JPG",   // HONOR X8B
+    "8024": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcoM_WT9EOdP7N1suxBW8GocexhfwmVijpZQ&s",   // Honor Play 9S
+    
+    // === INFINIX ===
+    "8018": "https://mobilestore.ec/wp-content/uploads/2025/07/Infinix-HOT-60-Pro-Blanco-Mobile-Store-Ecuador.jpg",   // Infinix Hot 60 Pro
+    "8019": "https://system.pepezone.ec//files/up/imgProducts/11554_INFINIX-SMART-10-NEGRO--8GB-128GB_729202572019PM.JPG",   // Infinix Smart 10
+    "8016": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDQh8Pt-ZNan3Q7qfgDn-I6OiQg0VmZG-k_A&s",   // Infinix Hot 50 Pro Gris
+    "8012": "https://images.deprati.com.ec/sys-master/images/he6/h7d/12490827038750/4894947045387-0_product_1200Wx1800H",   // Infinix Hot 50 Pro Black
+    
+    // === REDMI / XIAOMI ===
+    "8014": "https://mobilestore.ec/wp-content/uploads/2025/01/Xiaomi-Redmi-Note-14-4G-Azul-Oceano-Mobile-Store-Ecuador.jpg",   // Redmi Note 14
+    "8022": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY_hzMqL2JwLTvH9h_yosJIH2WqkXhr5UEcw&s",   // Redmi Note 14 Pro Plus 5G
+    "8023": "https://mobilestore.ec/wp-content/uploads/2026/01/Xiaomi-Redmi-Note-15-Pro-5G-Titanio-Gold-Mobile-Store-Ecuador.jpg",   // Redmi Note 15 Pro 5G
+    "8001": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOr5BiCduvVNBsCTohhLtfnb9qkKxj0RKtCg&s",   // Xiaomi Redmi 13C Azul
+    "8004": "https://http2.mlstatic.com/D_Q_NP_780144-MLA72668121499_112023-O.webp",   // Xiaomi Redmi 13C Negro
+    "8006": "https://system.pepezone.ec//files/up/imgProducts/8969_XIAOMI-REDMI-A3-VERDE-4GB-128GB_312202435331PM.JPG",   // Xiaomi Redmi A3
+    "8015": "https://japon.vtexassets.com/arquivos/ids/178772/008003002XIA25028RN03LAZU%20%20%20%20%20.png.png?v=638814504596100000",   // Xiaomi Redmi A5
+    
+    // === SAMSUNG ===
+    "8013": "https://mobilestore.ec/wp-content/uploads/2025/03/Samsung-Galaxy-A56-5G-Lightgray-Mobile-Store-Ecuador.jpg",   // Samsung Galaxy A56
+    "8007": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREFdeXwrxkbMqnrbZWOo1BBWVmKMcuNW8IkQ&s",   // Samsung SM-A05
+    "8020": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYKNeF3YmC-u1eGF1SGW6rvok-unH7pe5bmg&s",   // Samsung SM-A06
+    "8003": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsmZ0l6Pxz6-ia2tQ5MNoB1ygq-aZYc8tC_Q&s",   // Samsung SM-A155
+    
+    // === TECNO ===
+    "8000": "https://mundotek.com.ec/wp-content/uploads/2023/02/Imagen-spark.jpg",   // Tecno Spark Go 2024
+    
+    // === ACCESORIOS Y TABLETS ===
+    "8005": "https://http2.mlstatic.com/D_NQ_NP_757087-MEC76884690748_062024-O.webp",   // Kit reparación
+    "8017": "https://i0.wp.com/tegnamax.com/wp-content/uploads/2022/11/soporte-genius-g-stand-m100-360-grados.png?fit=1000%2C1000&ssl=1",   // Soporte Genius
+    "8002": "https://i0.wp.com/cemco.com.ec/wp-content/uploads/2024/06/HYUNDAI-PRO-8LA1.webp?fit=720%2C660&ssl=1",   // Tablet Hyundai
+    
+    // === TELEVISORES Y MONITORES ===
+    "5010": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStJhflOEl32_FW4ON8BxafIIK0alUAftFblQ&s",   // Fire TV Stick 3Gen
+    "5009": "https://alltechnologycs.com.ec/wp-content/uploads/2026/01/TV-STICK-4K-SELECT-PR.webp",   // Fire TV Stick 4K
+    "5008": "https://media.falabella.com/falabellaPE/139812390_01/w=1500,h=1500,fit=cover",   // Antena HD
+    "5017": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyGu3u0Xtf5kz6jNHXUSPiZaTyabeHiPYUwA&s",   // Monitor DAHUA
+    "5015": "https://www.computron.com.ec/wp-content/uploads/2025/07/24MS500-B-1.jpg",   // Monitor LG
+    "5007": "https://coretms.tecnomegastore.ec/assets/images/lg/25/MONSAMLS32D396G-1-lg.webp",   // Monitor Samsung
+    "5002": "https://i.imgur.com/3FgHjKl.png",   // Sintonizador TV
+    "5023": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUw10fM3R0zpzG3is5AY3dTkm_lqw6UADEFA&s",   // TCL 55'' 4K
+    "5021": "https://i.imgur.com/5XcVbNm.png",   // Soporte XTECH
+    "5022": "https://i.imgur.com/2WqRtYz.png",   // Soporte ZJ-031
+    "5018": "https://i.imgur.com/4R6sXcE.png",   // Soporte ZJ-030
+    "5013": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGoXER2GZbzSU6PilG4zungJssaQV5k2EPjg&s",   // Soporte HDL-117B
+    "5001": "https://i.imgur.com/6YtReWq.png",   // Soporte movible
+    "5003": "https://seracon.com.ec/682-large_default/soporte-p-tv-lcd-26-63-110-lbs-fijo.jpg",   // Soporte Nitron
+    "5004": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVjS60r5tctQTtlovzLBFQB-MA2EPcj24gRQ&s",   // RCA 32'' HD
+    "5012": "https://casadelaudio.com/media/catalog/product/1/7/178-rca-295.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700",   // RCA 40'' FHD
+    "5011": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWiyTp8r9PV3iDQ1c0nbdPXLCXB-p6oSo48A&s",   // RCA 43'' FHD
+    "5000": "https://granhogar.com.ec/imagenes/productos/8661:39:d0?v=1",   // RCA 55'' 4K
+    "5005": "https://i.imgur.com/2WqRtYz.png",   // RCA 58'' 4K
+    "5019": "https://www.pinsoft.ec/getimage/products/174809-1600-auto(1).jpg",   // HouseTV 55'' QLED
+    "5016": "https://i.imgur.com/9LkMnBv.png",   // RCA 32HDRC
+    "5020": "https://i.imgur.com/6YtReWq.png",   // RCA 50'' 4K
+    "5024": "https://i.imgur.com/3XcVbNm.png",   // RCA 65'' 4K
+    "5006": "https://i.imgur.com/8UyTrEw.png",   // TCL 43'' FHD
+    "5014": "https://i.imgur.com/1XcVbNm.png",   // TCL P6K 55'' 4K
+    
+    // === AUDIO Y SONIDO ===
+    "21007": "https://nanotech-market.com/wp-content/uploads/2025/05/nanotechh-2025-05-27T160336.209.png",  // Lenovo E05
+    "21009": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbNSXoKQ8dIlzk8SvSGVcd6ZE0w9UOPm__bw&s",  // INS IS-750
+    "21008": "https://compuahorro.com.ec/wp-content/uploads/2025/01/Sin-titulo-1-110.jpg",  // MARVO HG8921
+    "21011": "https://img.myipadbox.com/upload/store/detail_l/MS5365_B1.jpg",  // Barra LEERFEI
+    "21013": "https://i.imgur.com/4R6sXcE.png",  // Parlante XY-S6353
+    "21010": "https://tiendadelcelular.ec/wp-content/uploads/2025/02/9464_imagen_3-300x300.png",  // Parlante MS-A08
+    "21006": "https://i.imgur.com/6YtReWq.png",  // Parlante Karaoke
+    "21001": "https://clicksolucionesdigitales.com.ec/cdn/shop/files/parlante_marvo_usb_y_aux_3.5_gaming_rgb_marvo_sg-265_2_grande.jpg?v=1685658681",  // MARVO SG-100
+    "21000": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLf5X7ghpcFxBVanJlvXMoQ55laAp2uGg68w&s",  // MARVO SG-302
+    "21002": "https://coretms.tecnomegastore.ec/assets/images/main/25/PARXXX9831322RD.webp"   // PRONLY Party Box
+  };
+  
+  // ==================== IMÁGENES POR CATEGORÍA (fallback) ====================
+  const categoryImages = {
+    "TELEFONOS CELULARES Y TABLETS": "https://i.imgur.com/0kLpRtY.png",
+    "TELEVISORES": "https://i.imgur.com/7YtReWq.png",
+    "AUDIO Y SONIDO": "https://i.imgur.com/4R6sXcE.png"
+  };
+  
+  // Función para obtener imagen según código o categoría
+  function getProductImage(codigo, categoria) {
+    // Prioridad 1: Imagen asignada específicamente por código
+    if (productImages[codigo]) {
+      return productImages[codigo];
+    }
+    // Prioridad 2: Imagen por categoría
+    if (categoryImages[categoria]) {
+      return categoryImages[categoria];
+    }
+    // Prioridad 3: Imagen por defecto
+    return "https://i.imgur.com/0kLpRtY.png";
+  }
+
+  // ==================== DATOS DE PRODUCTOS ====================
+  const productsData = [
+    // CELULARES Y TABLETS
+    { codigo:"8021", nombre:"HONOR Magic8 Lite", especs:"6.79'' AMOLED, Snapdragon 6 Gen4, 8GB RAM+256GB, Cámara 108MP+5MP+16MP, Batería 8300mAh, Android 15, IP68/IP69K, 5G, carga 66W, Dual SIM", precio:390.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8010", nombre:"HONOR X5B (4+4GB RAM)", especs:"4+4GB RAM | 128GB | Cámara 50MP + frontal 13MP | Color Azul", precio:120.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8011", nombre:"HONOR X5B Lila", especs:"4+4GB RAM, 128GB, cámara 50MP+13MP, color Lila", precio:120.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8009", nombre:"HONOR X5B Negro", especs:"4+4GB RAM, 128GB, cámara 50MP+13MP, Negro", precio:120.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8008", nombre:"HONOR X8B", especs:"8GB RAM, 256GB, cámara 108MP + frontal 50MP, Negro", precio:275.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8018", nombre:"INFINIX Hot 60 Pro", especs:"6.78'' FHD AMOLED 120Hz, 8GB(+8) 256GB, cámara 50MP+8MP, 5000mAh, carga 33W, Android 14, Silver", precio:205.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8019", nombre:"INFINIX Smart 10", especs:"6.67'' LCD HD+, 4GB(+4) 128GB, cámara 8MP, batería 5000mAh, Android 15, Plata", precio:100.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8014", nombre:"Redmi Note 14", especs:"8GB RAM, 256GB, cámara 108MP, Negro", precio:190.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8022", nombre:"Redmi Note 14 Pro Plus 5G", especs:"12GB+512GB, Snapdragon 7s Gen3, pantalla AMOLED curva 6.67'' 120Hz, cámara 200MP, batería 5110mAh carga 120W, IP68", precio:430.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8023", nombre:"Redmi Note 15 Pro 5G", especs:"8GB+512GB, MediaTek Dimensity 7400, pantalla 6.83'' AMOLED 120Hz 3200nits, cámara 200MP, batería 6580mAh carga 45W, IP68", precio:405.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8013", nombre:"Samsung Galaxy A56 5G", especs:"6.7'', 12GB RAM, 256GB, cámara 50MP, 5G", precio:502.20, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8007", nombre:"Samsung Galaxy SM-A05", especs:"4GB+128GB, 5G-LTE, 6.7'' HD, cámara 50MP+8MP, Android, Silver", precio:130.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8020", nombre:"Samsung Galaxy SM-A06", especs:"4GB+128GB, 6.7'' HD, Android 14, Light Green", precio:100.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8003", nombre:"Samsung Galaxy SM-A155", especs:"6GB+128GB LTE, 6.5'', 4 cámaras, Android 14, Blue Black", precio:184.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8000", nombre:"Tecno Spark Go 2024", especs:"6.6'' HD 90Hz, 4GB+128GB, cámara 13MP, batería 5000mAh, Android 13 Go, Negro", precio:110.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8001", nombre:"Xiaomi Redmi 13C (Azul)", especs:"6.74'' HD LCD, 4GB+128GB, cámara 50MP, 5000mAh, Android 13, Azul", precio:122.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8004", nombre:"Xiaomi Redmi 13C (Negro)", especs:"6.74'' HD, 4GB+128GB, cámara 50MP, 5000mAh, Android 13, Negro", precio:132.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8006", nombre:"Xiaomi Redmi A3", especs:"6.7'' HD, 4GB+128GB, cámara 8MP+5MP, 5000mAh, Negro", precio:117.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8024", nombre:"Honor Play 9S", especs:"6.7'' FHD IP64, 8GB+256GB, cámara dual 108MP+5MP, Android 15, 5200mAh, 35W, Black", precio:230.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8016", nombre:"Infinix Hot 50 Pro (Gris)", especs:"6.78'' AMOLED 120Hz, 8GB(+8) 256GB, cámara 50MP, 5000mAh, Android 14, Gris", precio:190.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8012", nombre:"Infinix Hot 50 Pro (Black)", especs:"6.78'' AMOLED 120Hz, 8GB+256GB, cámara 50MP, Android 14, Black", precio:198.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8005", nombre:"Kit Reparación Celulares 20 pzas", especs:"Herramientas y desarmadores para reparar equipos móviles", precio:10.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"Sin garantía" },
+    { codigo:"8017", nombre:"Soporte Genius G-Stand M100", especs:"Para celular/tablet 4-10'', 360° plegable", precio:11.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8002", nombre:"Tablet Hyundai HyTab Plus 8LB1", especs:"8'' HD IPS, Android 11, 3GB/32GB, cámara 2MP/5MP, 4000mAh, Negro", precio:115.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    { codigo:"8015", nombre:"Xiaomi Redmi A5", especs:"6.88'' HD, 4GB+128GB, cámara 32MP+8MP, batería 5200mAh, Android 15, Black", precio:105.00, categoria:"TELEFONOS CELULARES Y TABLETS", garantia:"12 meses" },
+    
+    // TELEVISORES
+    { codigo:"5010", nombre:"Amazon Fire TV Stick 3ra Gen", especs:"FHD 1080p, control por voz Alexa, 1GB+8GB, Wi-Fi 5, Dolby Atmos", precio:49.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5009", nombre:"Amazon Fire TV Stick 4K", especs:"4K, control por voz, 2GB+8GB, Wi-Fi 6, Dolby Atmos", precio:60.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5008", nombre:"Antena HD TV Digital", especs:"Antena digital para recepción HD", precio:6.50, categoria:"TELEVISORES", garantia:"6 meses" },
+    { codigo:"5017", nombre:"Monitor DAHUA 19.5''", especs:"HD+ 75Hz, HDMI/VGA", precio:80.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5015", nombre:"Monitor LG 20MK40L", especs:"19.5'' TN 1366x768, HDMI/VGA", precio:75.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5007", nombre:"Monitor Samsung 19''", especs:"HD 1366x768, Flat, HDMI/VGA", precio:78.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5002", nombre:"Sintonizador TV Digital", especs:"Full HD 1080p, ISDB-T, HDMI, RCA, USB", precio:17.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5023", nombre:"Smart TV TCL 55'' 4K", especs:"Google TV, HDR10, Dolby Audio, mando voz", precio:470.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5021", nombre:"Soporte XTECH XTA-380", especs:"32'' a 90'', inclinación", precio:22.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5022", nombre:"Soporte ZJ-031", especs:"23'' a 63'', hasta 50kg", precio:10.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5018", nombre:"Soporte ZJ-030", especs:"14'' a 60'', plegable con inclinación", precio:16.25, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5013", nombre:"Soporte HDL-117B-2", especs:"14-55'', inclinación 15°, horizontal 180°", precio:16.25, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5001", nombre:"Soporte TV movible", especs:"14''-60'', instalación pared", precio:16.25, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5003", nombre:"Soporte TV fijo Nitron", especs:"26''-63'', instalación concreto", precio:7.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5004", nombre:"RCA 32'' HD Google TV", especs:"Sin bordes, mando voz, WiFi, Chromecast", precio:184.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5012", nombre:"RCA 40'' FHD", especs:"Google TV, mando voz, HDMI USB", precio:250.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5011", nombre:"RCA 43'' FHD Smart", especs:"Google TV, HDMI USB WiFi", precio:260.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5000", nombre:"RCA 55'' 4K UHD", especs:"Google TV, HDR10+, Dolby Audio", precio:400.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5005", nombre:"RCA 58'' 4K", especs:"Google TV, Dolby Atmos Vision", precio:457.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5019", nombre:"HouseTV 55'' QLED", especs:"4K UHD, Google TV, Dolby Audio", precio:389.00, categoria:"TELEVISORES", garantia:"12 meses" },
+    { codigo:"5016", nombre:"RCA 32HDRC", especs:"32'' HD, Google TV, BT WiFi, mando voz", precio:199.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5020", nombre:"RCA 50'' 4K", especs:"LED 4K HDR, Google TV, mando voz", precio:379.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5024", nombre:"RCA 65'' 4K", especs:"UHD Google TV, Dolby Atmos Vision", precio:560.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5006", nombre:"TCL 43'' FHD", especs:"Android TV, HDR10, mando voz", precio:299.00, categoria:"TELEVISORES", garantia:"24 meses" },
+    { codigo:"5014", nombre:"TCL P6K 55'' 4K", especs:"Google TV, AiPQ, HDR10", precio:469.00, categoria:"TELEVISORES", garantia:"24 meses" },
+
+    // AUDIO Y SONIDO
+    { codigo:"21007", nombre:"Audífonos Lenovo E05 WH", especs:"Manos libres, cable 1m, jack 3.5mm", precio:5.00, categoria:"AUDIO Y SONIDO", garantia:"12 meses" },
+    { codigo:"21009", nombre:"Headphone INS IS-750", especs:"Micrófono para PC, jack 2x 3.5mm", precio:4.00, categoria:"AUDIO Y SONIDO", garantia:"12 meses" },
+    { codigo:"21008", nombre:"Headphone MARVO HG8921", especs:"RGB USB 2.0, mic omnidireccional", precio:15.00, categoria:"AUDIO Y SONIDO", garantia:"12 meses" },
+    { codigo:"21011", nombre:"Barra Sonido LEERFEI", especs:"Speaker 40cm, 10W", precio:22.00, categoria:"AUDIO Y SONIDO", garantia:"12 meses" },
+    { codigo:"21013", nombre:"Parlante Bluetooth XY-S6353", especs:"Radio FM, linterna, USB, SD, carga solar", precio:23.00, categoria:"AUDIO Y SONIDO", garantia:"6 meses" },
+    { codigo:"21010", nombre:"Parlante Bluetooth FM", especs:"Radio FM, portátil", precio:19.00, categoria:"AUDIO Y SONIDO", garantia:"6 meses" },
+    { codigo:"21006", nombre:"Parlante Karaoke Dinamic", especs:"Wireless BT, 2 micrófonos", precio:25.00, categoria:"AUDIO Y SONIDO", garantia:"6 meses" },
+    { codigo:"21001", nombre:"Parlante MARVO SG-100", especs:"Bluetooth 2x5W, RGB, USB-C, 4000mAh", precio:25.00, categoria:"AUDIO Y SONIDO", garantia:"12 meses" },
+    { codigo:"21000", nombre:"Parlante MARVO SG-302", especs:"Iluminación RGB, carga inalámbrica", precio:19.00, categoria:"AUDIO Y SONIDO", garantia:"12 meses" },
+    { codigo:"21002", nombre:"Parlante PRONLY Party Box", especs:"Wireless BT, PR 801 Black", precio:17.00, categoria:"AUDIO Y SONIDO", garantia:"6 meses" }
+  ];
+
+  // Renderizado
+  function renderProducts(categoryFilter) {
+    const grid = document.getElementById('productsGrid');
+    let filtered = categoryFilter === 'all' ? productsData : productsData.filter(p => p.categoria === categoryFilter);
+    
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px;">✨ Pronto más productos. Consulta por WhatsApp.</div>`;
+      return;
+    }
+    
+    const whatsappNumber = "593987654321";
+    
+    grid.innerHTML = filtered.map(prod => {
+      const imgUrl = getProductImage(prod.codigo, prod.categoria);
+      const msg = `Hola%2C%20quiero%20informaci%C3%B3n%20de%20${encodeURIComponent(prod.nombre)}%20(cod:%20${prod.codigo})`;
+      const waLink = `https://wa.me/${whatsappNumber}?text=${msg}`;
+      
+      let categoryText = "";
+      if (prod.categoria === 'TELEFONOS CELULARES Y TABLETS') categoryText = "📱 Celular/Tablet";
+      else if (prod.categoria === 'TELEVISORES') categoryText = "📺 Televisor/Monitor";
+      else categoryText = "🎵 Audio";
+      
+      return `
+        <div class="product-card">
+          <div class="card-img">
+            <img src="${imgUrl}" alt="${prod.nombre}" loading="lazy" onerror="this.src='https://i.imgur.com/0kLpRtY.png'">
+          </div>
+          <div class="card-content">
+            <span class="category-label">${categoryText}</span>
+            <div class="product-title">${prod.nombre}</div>
+            <div class="product-specs">${prod.especs.substring(0, 110)}${prod.especs.length > 110 ? '…' : ''}</div>
+            <div class="code"><i class="fas fa-barcode"></i> Código: ${prod.codigo} | Garantía: ${prod.garantia}</div>
+            <div class="price-row">
+              <span class="price">$${prod.precio.toFixed(2)} <small>USD</small></span>
+            </div>
+            <div class="buy-action">
+              <a href="${waLink}" target="_blank">
+                <i class="fab fa-whatsapp"></i> Consultar / Comprar
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Tabs
+  const tabs = document.querySelectorAll('.tab-btn');
+  function setActiveTab(activeCat) {
+    tabs.forEach(btn => {
+      const catValue = btn.getAttribute('data-cat');
+      if ((activeCat === 'all' && catValue === 'all') || (catValue === activeCat)) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+  
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      renderProducts(btn.getAttribute('data-cat'));
+      setActiveTab(btn.getAttribute('data-cat'));
+    });
+  });
+  
+  renderProducts('all');
+</script>
+</body>
+</html>
